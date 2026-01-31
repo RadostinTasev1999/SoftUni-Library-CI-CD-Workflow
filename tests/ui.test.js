@@ -38,7 +38,7 @@ test('Verify "All Books" link is visible after user login', async ({ page }) => 
   expect(isAllBooksLinkVisible).toBe(true);
 });
 
-test('Login with valid credentials', async ({ page }) => {
+test.only('Login with valid credentials', async ({ page }) => {
   await page.goto('http://localhost:3000/login');
 
   await page.fill('input[name="email"]', 'peter@abv.bg');
@@ -46,8 +46,10 @@ test('Login with valid credentials', async ({ page }) => {
 
   await page.click('input[type="submit"]');
 
-  await page.$('a[href="/catalog"]');
+  await page.waitForURL('http://localhost:3000/catalog')
   expect(page.url()).toBe('http://localhost:3000/catalog');
+
+  // the test is checking the URL faster than the browser can complete the navigation and update the address bar.
 });
 
 test('Login with empty input fields', async ({ page }) => {
@@ -64,7 +66,7 @@ test('Login with empty input fields', async ({ page }) => {
     expect(page.url()).toBe('http://localhost:3000/login');
 });
 
-test('Add book with correct data', async ({ page }) => {
+test.only('Add book with correct data', async ({ page }) => {
   await page.goto('http://localhost:3000/login');
 
   await page.fill('input[name="email"]', 'peter@abv.bg');
@@ -140,7 +142,7 @@ test('Login and verify all books are displayed', async ({ page }) => {
   expect(bookElements.length).toBeGreaterThan(0);
 });
 
-test('Login and navigate to Details page', async ({ page }) => {
+test.only('Login and navigate to Details page', async ({ page }) => {
   await page.goto('http://localhost:3000/login');
 
   await page.fill('input[name="email"]', 'peter@abv.bg');
@@ -163,13 +165,14 @@ test('Login and navigate to Details page', async ({ page }) => {
   expect(detailsPageTitle).toBe('Test Book'); 
 });
 
-test('Verify visibility of Logout button after user login', async ({ page }) => {
+test.only('Verify visibility of Logout button after user login', async ({ page }) => {
   await page.goto('http://localhost:3000/login');
 
   await page.fill('input[name="email"]', 'peter@abv.bg');
   await page.fill('input[name="password"]', '123456');
   await page.click('input[type="submit"]');
-
+ 
+  await page.waitForSelector('a[href="javascript:void(0)"]')
   const logoutLink = await page.$('a[href="javascript:void(0)"]');
 
   const isLogoutLinkVisible = await logoutLink.isVisible();
