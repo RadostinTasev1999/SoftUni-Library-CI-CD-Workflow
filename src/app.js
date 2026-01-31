@@ -20,6 +20,8 @@ const main = document.querySelector('main');
 setUserNav();
 document.getElementById('logoutBtn').addEventListener('click', logout);
 
+// This is app.js
+
 page('/login', decorateContext, loginPage);
 page('/register', decorateContext, registerPage);
 page('/create', decorateContext, createPage);
