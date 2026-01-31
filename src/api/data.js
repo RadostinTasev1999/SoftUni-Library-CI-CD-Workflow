@@ -1,7 +1,7 @@
 import * as api from './api.js';
 
-const host = 'http://localhost:3030'
-api.settings.host = 'http://localhost:3030';
+const host = 'https://library-app-server-cqrc.onrender.com'
+api.settings.host = 'https://library-app-server-cqrc.onrender.com';
 
 export const login = api.login;
 export const register = api.register;
@@ -17,6 +17,7 @@ export async function createBook(data) {
 
 
 export async function getAllBooks() {
+    console.log('Testing host endpoint', host)
     return await api.get(host + '/data/books?sortBy=_createdOn%20desc');
 }
 
