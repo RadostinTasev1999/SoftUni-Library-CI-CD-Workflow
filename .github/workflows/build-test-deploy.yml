@@ -58,8 +58,14 @@ jobs:
              api_key: ${{ secrets.RENDER_API_KEY }}
              wait_deploy: true
            
-       
-      
+    deploy_front-end:
+        runs-on: ubuntu-latest
+        needs: build_test
+        if: github.ref == 'refs/heads/master'
+      # ensures that the code following it only executes when the workflow is triggered by the master branch.
+
+        steps:
+          - name: Deploy to Render
     
 
       
